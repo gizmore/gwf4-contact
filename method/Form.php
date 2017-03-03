@@ -34,20 +34,25 @@ final class Contact_Form extends GWF_Method
 		return strlen($arg) < 5 ? $this->module->lang('err_message') : false;
 	}
 
+	private $form;
 	private function getForm()
 	{
-		$user = GWF_Session::getUser();
-		$default_email = $user === false ? '' : $user->getVar('user_email');
-		$data = array(
-			'email' => array(GWF_Form::STRING, $default_email, $this->module->lang('th_email')),
-			'message' => array(GWF_Form::MESSAGE, '', $this->module->lang('th_message')),
-		);
-		if ($this->module->isCaptchaEnabled()) {
-			$data['captcha'] = array(GWF_Form::CAPTCHA);
+		if (!$this->form)
+		{
+			$user = GWF_Session::getUser();
+			$default_email = $user === false ? '' : $user->getVar('user_email');
+			$data = array(
+				'email' => array(GWF_Form::EMAIL, $default_email, $this->module->lang('th_email')),
+				'message' => array(GWF_Form::MESSAGE_NOBB, '', $this->module->lang('th_message')),
+			);
+			if ($this->module->isCaptchaEnabled()) {
+				$data['captcha'] = array(GWF_Form::CAPTCHA);
+			}
+			$data['contact'] = array(GWF_Form::SUBMIT, $this->module->lang('btn_contact'), '');
+	
+			$this->form = new GWF_Form($this, $data);
 		}
-		$data['contact'] = array(GWF_Form::SUBMIT, $this->module->lang('btn_contact'), '');
-
-		return new GWF_Form($this, $data);
+		return $this->form;
 	}
 
 	private function templateForm()

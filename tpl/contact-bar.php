@@ -1,1 +1,3 @@
-<md-button href="<?php echo $href_contact?>">Contact</md-button>
+<gwf-sidebar-item>
+<?php echo GWF_Button::generic($lang->lang('contact_title'), $href_contact); ?>
+</gwf-sidebar-item>

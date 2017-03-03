@@ -50,6 +50,7 @@ final class Module_Contact extends GWF_Module
 	
 	private function sidebarTemplate()
 	{
+		$this->onLoadLanguage();
 		$tVars = array(
 			'href_contact' => GWF_WEB_ROOT.'contact',
 		);
